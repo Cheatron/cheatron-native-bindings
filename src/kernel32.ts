@@ -11,6 +11,7 @@ import type {
   LPDWORD,
   SecurityAttributes,
   ThreadCreationFlags,
+  INT_PTR,
 } from '@cheatron/win32-ext';
 
 /**
@@ -80,7 +81,7 @@ export interface Kernel32 {
   WaitForSingleObject: (_hHandle: HANDLE, _dwMilliseconds: DWORD) => DWORD;
   GetModuleHandleW: (_lpModuleName: string | null) => HMODULE;
   GetModuleHandleA: (_lpModuleName: string | null) => HMODULE;
-  GetProcAddress: (_hModule: HMODULE, _lpProcName: string) => LPVOID;
+  GetProcAddress: (_hModule: HMODULE, _lpProcName: string) => INT_PTR;
   CreateThread: (
     _lpThreadAttributes: SecurityAttributes | LPVOID | null,
     _dwStackSize: SIZE_T,
