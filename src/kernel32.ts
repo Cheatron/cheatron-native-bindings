@@ -45,6 +45,17 @@ export interface Kernel32 {
     _flAllocationType: DWORD,
     _flProtect: DWORD,
   ) => LPVOID;
+  VirtualFree: (
+    _lpAddress: LPVOID,
+    _dwSize: SIZE_T,
+    _dwFreeType: DWORD,
+  ) => BOOL;
+  VirtualFreeEx: (
+    _hProcess: HANDLE,
+    _lpAddress: LPVOID,
+    _dwSize: SIZE_T,
+    _dwFreeType: DWORD,
+  ) => BOOL;
   VirtualQuery: (
     _lpAddress: LPCVOID,
     _lpBuffer: Buffer | LPVOID,
@@ -120,6 +131,11 @@ const kernel32Def = {
   VirtualAllocEx: [
     Def.voidPtr,
     [Def.voidPtr, Def.voidPtr, Def.uint64, Def.uint32, Def.uint32],
+  ],
+  VirtualFree: [Def.int32, [Def.voidPtr, Def.uint64, Def.uint32]],
+  VirtualFreeEx: [
+    Def.int32,
+    [Def.voidPtr, Def.voidPtr, Def.uint64, Def.uint32],
   ],
   VirtualQuery: [Def.uint64, [Def.voidPtr, Def.voidPtr, Def.uint64]],
   VirtualQueryEx: [
