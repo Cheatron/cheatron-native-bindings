@@ -11,6 +11,7 @@ import type {
   LPDWORD,
   SecurityAttributes,
   ThreadCreationFlags,
+  MemoryFreeType,
   INT_PTR,
 } from '@cheatron/win32-ext';
 
@@ -48,13 +49,13 @@ export interface Kernel32 {
   VirtualFree: (
     _lpAddress: LPVOID,
     _dwSize: SIZE_T,
-    _dwFreeType: DWORD,
+    _dwFreeType: MemoryFreeType | DWORD,
   ) => BOOL;
   VirtualFreeEx: (
     _hProcess: HANDLE,
     _lpAddress: LPVOID,
     _dwSize: SIZE_T,
-    _dwFreeType: DWORD,
+    _dwFreeType: MemoryFreeType | DWORD,
   ) => BOOL;
   VirtualQuery: (
     _lpAddress: LPCVOID,
