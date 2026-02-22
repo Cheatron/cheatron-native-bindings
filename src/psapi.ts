@@ -1,6 +1,13 @@
 /* eslint-disable no-unused-vars */
 import { load, Def } from '@cheatron/win32-ext';
-import type { BOOL, HANDLE, HMODULE, DWORD, LPVOID } from '@cheatron/win32-ext';
+import type {
+  BOOL,
+  HANDLE,
+  HMODULE,
+  DWORD,
+  LPVOID,
+  ModuleInfo,
+} from '@cheatron/win32-ext';
 
 /**
  * Psapi function definitions
@@ -9,7 +16,7 @@ export interface Psapi {
   GetModuleInformation: (
     _hProcess: HANDLE,
     _hModule: HMODULE,
-    _lpmodinfo: Buffer | LPVOID,
+    _lpmodinfo: Buffer | LPVOID | ModuleInfo,
     _cb: DWORD,
   ) => BOOL;
 }
