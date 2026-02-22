@@ -57,6 +57,19 @@ export interface Kernel32 {
     _dwSize: SIZE_T,
     _dwFreeType: MemoryFreeType | DWORD,
   ) => BOOL;
+  VirtualProtect: (
+    _lpAddress: LPVOID,
+    _dwSize: SIZE_T,
+    _flNewProtect: DWORD,
+    _lpflOldProtect: LPDWORD | Buffer,
+  ) => BOOL;
+  VirtualProtectEx: (
+    _hProcess: HANDLE,
+    _lpAddress: LPVOID,
+    _dwSize: SIZE_T,
+    _flNewProtect: DWORD,
+    _lpflOldProtect: LPDWORD | Buffer,
+  ) => BOOL;
   VirtualQuery: (
     _lpAddress: LPCVOID,
     _lpBuffer: Buffer | LPVOID,
@@ -137,6 +150,14 @@ const kernel32Def = {
   VirtualFreeEx: [
     Def.int32,
     [Def.voidPtr, Def.voidPtr, Def.uint64, Def.uint32],
+  ],
+  VirtualProtect: [
+    Def.int32,
+    [Def.voidPtr, Def.uint64, Def.uint32, `_Out_ ${Def.uint32}*`],
+  ],
+  VirtualProtectEx: [
+    Def.int32,
+    [Def.voidPtr, Def.voidPtr, Def.uint64, Def.uint32, `_Out_ ${Def.uint32}*`],
   ],
   VirtualQuery: [Def.uint64, [Def.voidPtr, Def.voidPtr, Def.uint64]],
   VirtualQueryEx: [
