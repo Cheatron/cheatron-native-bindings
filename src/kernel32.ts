@@ -124,6 +124,7 @@ export interface Kernel32 {
     _dwCreationFlags: ThreadCreationFlags | DWORD,
     _lpThreadId: LPDWORD | null,
   ) => HANDLE;
+  TerminateThread: (_hThread: HANDLE, _dwExitCode: DWORD) => BOOL;
 }
 
 /**
@@ -205,6 +206,7 @@ const kernel32Def = {
       `_Out_ ${Def.uint32}*`,
     ],
   ],
+  TerminateThread: [Def.int32, [Def.voidPtr, Def.uint32]],
 };
 
 export const Kernel32Impl = load<Kernel32>({
