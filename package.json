@@ -1,6 +1,6 @@
 {
   "name": "@cheatron/native-bindings",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Low-level Win32 FFI bindings for Cheatron, focusing on 64-bit Windows DLL signatures.",
   "module": "./src/index.ts",
   "main": "./dist/index.js",
