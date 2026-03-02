@@ -12,6 +12,7 @@ import type {
   SecurityAttributes,
   ThreadCreationFlags,
   MemoryFreeType,
+  GetModuleHandleExFlag,
   INT_PTR,
 } from '@cheatron/win32-ext';
 
@@ -106,6 +107,16 @@ export interface Kernel32 {
   WaitForSingleObject: (_hHandle: HANDLE, _dwMilliseconds: DWORD) => DWORD;
   GetModuleHandleW: (_lpModuleName: string | null) => HMODULE;
   GetModuleHandleA: (_lpModuleName: string | null) => HMODULE;
+  GetModuleHandleExW: (
+    _dwFlags: GetModuleHandleExFlag | DWORD,
+    _lpModuleName: string | LPCVOID | null,
+    _phModule: Buffer | LPCVOID,
+  ) => BOOL;
+  GetModuleHandleExA: (
+    _dwFlags: GetModuleHandleExFlag | DWORD,
+    _lpModuleName: string | LPCVOID | null,
+    _phModule: Buffer | LPCVOID,
+  ) => BOOL;
   GetProcAddress: (_hModule: HMODULE, _lpProcName: string) => INT_PTR;
   CreateThread: (
     _lpThreadAttributes: SecurityAttributes | LPVOID | null,
@@ -182,6 +193,14 @@ const kernel32Def = {
   WaitForSingleObject: [Def.uint32, [Def.voidPtr, Def.uint32]],
   GetModuleHandleW: [Def.voidPtr, [Def.uint16Ptr]],
   GetModuleHandleA: [Def.voidPtr, [Def.charPtr]],
+  GetModuleHandleExW: [
+    Def.int32,
+    [Def.uint32, Def.uint16Ptr, `_Out_ ${Def.voidPtr}*`],
+  ],
+  GetModuleHandleExA: [
+    Def.int32,
+    [Def.uint32, Def.charPtr, `_Out_ ${Def.voidPtr}*`],
+  ],
   GetProcAddress: [Def.voidPtr, [Def.voidPtr, Def.charPtr]],
   CreateThread: [
     Def.voidPtr,
