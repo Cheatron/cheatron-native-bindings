@@ -13,6 +13,14 @@ import type {
   ThreadCreationFlags,
   MemoryFreeType,
   GetModuleHandleExFlag,
+  ToolhelpSnapshotFlag,
+  ProcessEntry32W,
+  ProcessEntry32,
+  ThreadEntry32,
+  ModuleEntry32W,
+  ModuleEntry32,
+  HeapList32,
+  HeapEntry32,
   INT_PTR,
 } from '@cheatron/win32-ext';
 
@@ -140,6 +148,31 @@ export interface Kernel32 {
   LoadLibraryA: (_lpLibFileName: string | Buffer) => HMODULE;
   LoadLibraryW: (_lpLibFileName: string | Buffer) => HMODULE;
   FreeLibrary: (_hLibModule: HMODULE) => BOOL;
+  CreateToolhelp32Snapshot: (
+    _dwFlags: ToolhelpSnapshotFlag | DWORD,
+    _th32ProcessID: DWORD,
+  ) => HANDLE;
+  Process32FirstW: (
+    _hSnapshot: HANDLE,
+    _lppe: ProcessEntry32W | Buffer,
+  ) => BOOL;
+  Process32First: (_hSnapshot: HANDLE, _lppe: ProcessEntry32 | Buffer) => BOOL;
+  Process32NextW: (_hSnapshot: HANDLE, _lppe: ProcessEntry32W | Buffer) => BOOL;
+  Process32Next: (_hSnapshot: HANDLE, _lppe: ProcessEntry32 | Buffer) => BOOL;
+  Module32FirstW: (_hSnapshot: HANDLE, _lpme: ModuleEntry32W | Buffer) => BOOL;
+  Module32First: (_hSnapshot: HANDLE, _lpme: ModuleEntry32 | Buffer) => BOOL;
+  Module32NextW: (_hSnapshot: HANDLE, _lpme: ModuleEntry32W | Buffer) => BOOL;
+  Module32Next: (_hSnapshot: HANDLE, _lpme: ModuleEntry32 | Buffer) => BOOL;
+  Thread32First: (_hSnapshot: HANDLE, _lpte: ThreadEntry32 | Buffer) => BOOL;
+  Thread32Next: (_hSnapshot: HANDLE, _lpte: ThreadEntry32 | Buffer) => BOOL;
+  Heap32ListFirst: (_hSnapshot: HANDLE, _lphl: HeapList32 | Buffer) => BOOL;
+  Heap32ListNext: (_hSnapshot: HANDLE, _lphl: HeapList32 | Buffer) => BOOL;
+  Heap32First: (
+    _lphe: HeapEntry32 | Buffer,
+    _th32ProcessID: DWORD,
+    _th32HeapID: number | bigint,
+  ) => BOOL;
+  Heap32Next: (_lphe: HeapEntry32 | Buffer) => BOOL;
 }
 
 /**
@@ -234,6 +267,21 @@ const kernel32Def = {
   LoadLibraryA: [Def.voidPtr, [Def.charPtr]],
   LoadLibraryW: [Def.voidPtr, [Def.uint16Ptr]],
   FreeLibrary: [Def.int32, [Def.voidPtr]],
+  CreateToolhelp32Snapshot: [Def.voidPtr, [Def.uint32, Def.uint32]],
+  Process32FirstW: [Def.int32, [Def.voidPtr, `_Inout_ ${Def.voidPtr}`]],
+  Process32First: [Def.int32, [Def.voidPtr, `_Inout_ ${Def.voidPtr}`]],
+  Process32NextW: [Def.int32, [Def.voidPtr, `_Inout_ ${Def.voidPtr}`]],
+  Process32Next: [Def.int32, [Def.voidPtr, `_Inout_ ${Def.voidPtr}`]],
+  Module32FirstW: [Def.int32, [Def.voidPtr, `_Inout_ ${Def.voidPtr}`]],
+  Module32First: [Def.int32, [Def.voidPtr, `_Inout_ ${Def.voidPtr}`]],
+  Module32NextW: [Def.int32, [Def.voidPtr, `_Inout_ ${Def.voidPtr}`]],
+  Module32Next: [Def.int32, [Def.voidPtr, `_Inout_ ${Def.voidPtr}`]],
+  Thread32First: [Def.int32, [Def.voidPtr, `_Inout_ ${Def.voidPtr}`]],
+  Thread32Next: [Def.int32, [Def.voidPtr, `_Inout_ ${Def.voidPtr}`]],
+  Heap32ListFirst: [Def.int32, [Def.voidPtr, `_Inout_ ${Def.voidPtr}`]],
+  Heap32ListNext: [Def.int32, [Def.voidPtr, `_Inout_ ${Def.voidPtr}`]],
+  Heap32First: [Def.int32, [`_Inout_ ${Def.voidPtr}`, Def.uint32, Def.uint64]],
+  Heap32Next: [Def.int32, [`_Inout_ ${Def.voidPtr}`]],
 };
 
 export const Kernel32Impl = load<Kernel32>({
