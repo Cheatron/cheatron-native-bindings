@@ -137,6 +137,9 @@ export interface Kernel32 {
   ) => HANDLE;
   TerminateThread: (_hThread: HANDLE, _dwExitCode: DWORD) => BOOL;
   ExitThread: (_dwExitCode: DWORD) => void;
+  LoadLibraryA: (_lpLibFileName: string) => HMODULE;
+  LoadLibraryW: (_lpLibFileName: string) => HMODULE;
+  FreeLibrary: (_hLibModule: HMODULE) => BOOL;
 }
 
 /**
@@ -228,6 +231,9 @@ const kernel32Def = {
   ],
   TerminateThread: [Def.int32, [Def.voidPtr, Def.uint32]],
   ExitThread: [Def.void, [Def.uint32]],
+  LoadLibraryA: [Def.voidPtr, [Def.charPtr]],
+  LoadLibraryW: [Def.voidPtr, [Def.uint16Ptr]],
+  FreeLibrary: [Def.int32, [Def.voidPtr]],
 };
 
 export const Kernel32Impl = load<Kernel32>({
