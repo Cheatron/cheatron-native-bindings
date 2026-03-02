@@ -105,19 +105,19 @@ export interface Kernel32 {
   ) => HANDLE;
   CloseHandle: (_hObject: HANDLE) => BOOL;
   WaitForSingleObject: (_hHandle: HANDLE, _dwMilliseconds: DWORD) => DWORD;
-  GetModuleHandleW: (_lpModuleName: string | null) => HMODULE;
-  GetModuleHandleA: (_lpModuleName: string | null) => HMODULE;
+  GetModuleHandleW: (_lpModuleName: string | Buffer | null) => HMODULE;
+  GetModuleHandleA: (_lpModuleName: string | Buffer | null) => HMODULE;
   GetModuleHandleExW: (
     _dwFlags: GetModuleHandleExFlag | DWORD,
-    _lpModuleName: string | LPCVOID | null,
+    _lpModuleName: string | Buffer | LPCVOID | null,
     _phModule: Buffer | LPCVOID,
   ) => BOOL;
   GetModuleHandleExA: (
     _dwFlags: GetModuleHandleExFlag | DWORD,
-    _lpModuleName: string | LPCVOID | null,
+    _lpModuleName: string | Buffer | LPCVOID | null,
     _phModule: Buffer | LPCVOID,
   ) => BOOL;
-  GetProcAddress: (_hModule: HMODULE, _lpProcName: string) => INT_PTR;
+  GetProcAddress: (_hModule: HMODULE, _lpProcName: string | Buffer) => INT_PTR;
   CreateThread: (
     _lpThreadAttributes: SecurityAttributes | LPVOID | null,
     _dwStackSize: SIZE_T,
@@ -137,8 +137,8 @@ export interface Kernel32 {
   ) => HANDLE;
   TerminateThread: (_hThread: HANDLE, _dwExitCode: DWORD) => BOOL;
   ExitThread: (_dwExitCode: DWORD) => void;
-  LoadLibraryA: (_lpLibFileName: string) => HMODULE;
-  LoadLibraryW: (_lpLibFileName: string) => HMODULE;
+  LoadLibraryA: (_lpLibFileName: string | Buffer) => HMODULE;
+  LoadLibraryW: (_lpLibFileName: string | Buffer) => HMODULE;
   FreeLibrary: (_hLibModule: HMODULE) => BOOL;
 }
 
