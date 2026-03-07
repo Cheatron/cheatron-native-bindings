@@ -11,6 +11,8 @@ export interface MSVCRT {
   memcpy: (_dest: LPVOID, _src: LPVOID, _count: SIZE_T) => LPVOID;
   memset: (_dest: LPVOID, _value: number, _count: SIZE_T) => LPVOID;
   memcmp: (_buf1: LPVOID, _buf2: LPVOID, _count: SIZE_T) => number;
+  strlen: (_str: LPVOID | Buffer | string) => SIZE_T;
+  wcslen: (_str: LPVOID | Buffer | string) => SIZE_T;
 }
 
 /**
@@ -22,6 +24,8 @@ const msvcrtDef = {
   memcpy: [Def.voidPtr, [Def.voidPtr, Def.voidPtr, Def.uint64]],
   memset: [Def.voidPtr, [Def.voidPtr, Def.int32, Def.uint64]],
   memcmp: [Def.int32, [Def.voidPtr, Def.voidPtr, Def.uint64]],
+  strlen: [Def.uint64, [Def.charPtr]],
+  wcslen: [Def.uint64, [Def.uint16Ptr]],
 };
 
 export const MsvcrtImpl = load<MSVCRT>({
